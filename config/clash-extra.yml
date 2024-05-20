@@ -1,0 +1,8 @@
+proxy-groups:
+  - name: noproxy
+    type: select
+    proxies:
+      - DIRECT
+  
+rules:
+  - IP-CIDR,192.168.1.0/24,noproxy

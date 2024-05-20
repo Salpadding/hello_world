@@ -1,0 +1,7 @@
+clash: 
+  extra: config/clash-extra.yml
+  subscribe: ''
+  path: /config/clash.yaml
+
+server:
+  bind: 0.0.0.0:9000
