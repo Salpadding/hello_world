@@ -4,6 +4,7 @@ mod err;
 use config::Config;
 
 use axum::{extract::State, routing::get, Router};
+use tokio::net::tcp::ReuniteError;
 use std::sync::Arc;
 
 async fn clash(State(config): State<Arc<Config>>) -> Result<String, err::AppError> {
@@ -20,12 +21,9 @@ async fn clash(State(config): State<Arc<Config>>) -> Result<String, err::AppErro
 
 #[tokio::main]
 async fn main() {
-    let cfg_path = if let Ok(str) = std::env::var("APP_CONFIG") {
-        str
-    } else {
-        "config/config.yaml".to_string()
-    };
-
+    let cfg_path = std::env::var("APP_CONFIG")
+        .unwrap_or("config/config.yaml".to_string());
+    
     let cfg: config::Config = match std::fs::File::open(&cfg_path) {
         Ok(file) => serde_yml::from_reader(file).unwrap(),
         Err(_) => Config::default(),
